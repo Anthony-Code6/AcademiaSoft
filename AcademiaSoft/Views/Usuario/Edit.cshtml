@@ -1,0 +1,80 @@
+﻿@{
+    ViewData["Title"] = "Alumnos | Editar";
+}
+@model AcademiaSoft.Models.Usuario
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Usuario | Editar</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-4 col-md-5 col-sm-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="fas fa-edit"></i> Editar Usuario</h4>
+                    </div>
+                    <form asp-action="Edit" asp-controller="Usuario" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Correo" class="control-label"></label>
+                                <input asp-for="Id" type="hidden" />
+                                <input asp-for="Correo" class="form-control" />
+                                <span asp-validation-for="Correo" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Password" class="control-label"></label>
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Tipo" class="control-label"></label>
+                                <select asp-for="Tipo" class="form-control">
+                                    <option value="">-- Selecciona el Tipo de Usuario --</option>
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Alumno">Alumno</option>
+                                    <option value="Profesor">Profesor</option>
+                                </select>
+                                <span asp-validation-for="Tipo" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-group">
+                                <a class="btn btn-default" href="@Url.Action("Index","Usuario")">Regresar</a>
+                                <button class="btn btn-warning" type="submit">Actualizar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+@section scripts {
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="../../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <!-- Toastr -->
+    <link rel="stylesheet" href="../../plugins/toastr/toastr.min.css">
+
+    <!-- SweetAlert2 -->
+    <script src="~/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <!-- Toastr -->
+    <script src="~/plugins/toastr/toastr.min.js"></script>
+
+}

@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Periodo | Crear";
+}
+
+@model AcademiaSoft.Models.Periodo
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Periodo | Crear</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="fas fa-edit"></i> Registrar Periodo</h4>
+                    </div>
+                    <form asp-action="Create" asp-controller="Periodo" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label asp-for="Trimestre_1" class="control-label">Fecha del 1° Trimestre</label>
+                                <input asp-for="Id" class="form-control" type="hidden" value="0" />
+                                <input asp-for="Trimestre_1" type="date" class="form-control" />
+                                <span asp-validation-for="Trimestre_1" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Trimestre_2" class="control-label">Fecha del 2° Trimestre</label>
+                                <input asp-for="Trimestre_2" type="date" class="form-control" />
+                                <span asp-validation-for="Trimestre_2" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Trimestre_3" class="control-label">Fecha del 3° Trimestre</label>
+                                <input asp-for="Trimestre_3" type="date" class="form-control" />
+                                <span asp-validation-for="Trimestre_3" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="Trimestre_4" class="control-label">Fecha del 4° Trimestre</label>
+                                <input asp-for="Trimestre_4" type="date" class="form-control" />
+                                <span asp-validation-for="Trimestre_4" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="@Url.ActionLink("Index","Periodo")" class="btn btn-default">Regresar</a>
+                            <button type="submit" class="btn btn-success registrar_alumno">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+
+@section scripts {
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+}

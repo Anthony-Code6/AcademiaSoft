@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Alumnos | Crear";
+}
+
+@model AcademiaSoft.Models.Alumno
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Alumno | Crear</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h4 class="card-title"><i class="fas fa-edit"></i> Registrar Alumnos</h4>
+                    </div>
+                    <form asp-action="Create" asp-controller="Alumno" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label class="form-label" asp-for="Documento">Documento</label>
+                                <input asp-for="Id" type="hidden" value="0" />
+                                <input asp-for="Documento" class="form-control" />
+                                <span asp-validation-for="Documento" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" asp-for="Nombre">Nombre</label>
+                                <input asp-for="Nombre" class="form-control" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" asp-for="Apellido">Apellido</label>
+                                <input asp-for="Apellido" class="form-control" />
+                                <span asp-validation-for="Apellido" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" asp-for="Idusuario"></label>
+                                <select class="form-control" asp-for="Idusuario">
+                                    <option value="0" selected>-- Selecciona el Usuario --</option>
+                                    @foreach (var item in ViewBag.Usuarios)
+                                    {
+                                        <option value="@item.Id">@item.Correo - @item.Tipo</option>
+                                    }
+                                </select>
+                                
+                                <span asp-validation-for="Idusuario" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer text-end">
+                            <a href="@Url.ActionLink("Index","Alumno")" class="btn btn-default">Regresar</a>
+                            <button type="submit" class="btn btn-success registrar_alumno">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+
+
+@section scripts {
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+}
