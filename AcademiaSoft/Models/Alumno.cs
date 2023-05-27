@@ -2,7 +2,7 @@
 
 namespace AcademiaSoft.Models
 {
-    public class Alumno:ValidationAttribute
+    public class Alumno
     {
         public Alumno() {
             Codigo = "";
