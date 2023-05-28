@@ -14,7 +14,7 @@ namespace AcademiaSoft.Controllers
         {
             try
             {
-                ViewBag.error = TempData["eliminar_mesnaje"];
+                ViewBag.delete = TempData["eliminar_mesnaje"];
                 ViewBag.save = TempData["registrar_mesnaje"];
                 ViewBag.update = TempData["actualizar_mesnaje"];
             }
@@ -87,7 +87,7 @@ namespace AcademiaSoft.Controllers
                 return NotFound();
             }
             TempData["eliminar_mesnaje"] = "Se Elimino Correctamente el Alumno.";
-            ViewBag.error = TempData["eliminar_mesnaje"];
+            ViewBag.delete = TempData["eliminar_mesnaje"];
             alumnodao.Eliminar(id);
             return RedirectToAction(nameof(Index));
         }

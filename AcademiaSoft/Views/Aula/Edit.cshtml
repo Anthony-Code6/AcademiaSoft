@@ -21,12 +21,12 @@
                     <div class="card-header">
                         <h4 class="card-title"><i class="fas fa-edit"></i> Registrar Aula</h4>
                     </div>
-                    <form asp-action="Create" asp-controller="Aula" method="post">
+                    <form asp-action="Edit" asp-controller="Aula" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="card-body">
                             <div class="form-group">
                                 <label asp-for="Descripcion" class="control-label"></label>
-                                <input asp-for="Id" type="hidden" value="0" />
+                                <input asp-for="Id" type="hidden" />
                                 <textarea asp-for="Descripcion" id="Descripcion"></textarea>
                                 <span asp-validation-for="Descripcion" class="text-danger"></span>
                             </div>

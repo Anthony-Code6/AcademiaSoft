@@ -9,7 +9,6 @@ EXEC SP_REGISTRAR_USUARIO 7, 'p5@gmail.com', '232323', 'Alumno';
 EXEC SP_REGISTRAR_USUARIO 8, 'p6@gmail.com', '232323', 'Alumno';
 EXEC SP_REGISTRAR_USUARIO 9, 'p7@gmail.com', '232323', 'Alumno';
 EXEC SP_REGISTRAR_USUARIO 10, 'p8@gmail.com', '232323', 'Alumno';
-EXEC SP_LISTAR_USUARIO;
 GO
 
 select * from alumno;

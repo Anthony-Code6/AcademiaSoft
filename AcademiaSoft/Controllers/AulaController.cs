@@ -1,36 +1,51 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AcademiaSoft.Dao;
+using AcademiaSoft.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcademiaSoft.Controllers
 {
     public class AulaController : Controller
     {
-        // GET: AulaController
+        AulaDao auladao=new AulaDao();
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                ViewBag.delete = TempData["eliminar_mesnaje"];
+                ViewBag.save = TempData["registrar_mesnaje"];
+                ViewBag.update = TempData["actualizar_mesnaje"];
+                ViewBag.error = TempData["error_mesnaje"];
+            }
+            catch (Exception ex) { }
+            var aula=auladao.Listar();
+            return View(aula);
         }
 
-        // GET: AulaController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: AulaController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: AulaController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Aula aula)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    TempData["registrar_mesnaje"] = "Se Registro Correctamente";
+                    ViewBag.save = TempData["registrar_mesnaje"];
+                    auladao.Guardar(aula);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(aula);
             }
             catch
             {
@@ -38,19 +53,38 @@ namespace AcademiaSoft.Controllers
             }
         }
 
-        // GET: AulaController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Aula aula_existe = auladao.Buscar(id);
+            if (id !=null && aula_existe != null)
+            {
+                return View(aula_existe);
+            }
+            TempData["error_mesnaje"] = "El Aula no existe en el Sistema.";
+            ViewBag.error = TempData["error_mesnaje"];
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: AulaController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Aula aula)
         {
             try
             {
+                Aula aula_existe = auladao.Buscar(id);
+                if (id != null && aula_existe != null)
+                {
+                    if (ModelState.IsValid)
+                    {
+                        TempData["actualizar_mesnaje"] = "Se Actualizo Correctamente.";
+                        ViewBag.update = TempData["actualizar_mesnaje"];
+                        auladao.Actualizar(aula);
+                        return RedirectToAction(nameof(Index));
+                    }
+                    return View(aula);
+                }
+                TempData["error_mesnaje"] = "El Aula no existe en el Sistema.";
+                ViewBag.error = TempData["error_mesnaje"];
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -59,13 +93,14 @@ namespace AcademiaSoft.Controllers
             }
         }
 
-        // GET: AulaController/Delete/5
+        [HttpPost]
         public ActionResult Delete(int id)
         {
             return View();
         }
 
         // POST: AulaController/Delete/5
+        /*
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -79,5 +114,6 @@ namespace AcademiaSoft.Controllers
                 return View();
             }
         }
+         */
     }
 }

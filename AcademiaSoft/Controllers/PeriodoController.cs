@@ -12,7 +12,7 @@ namespace AcademiaSoft.Controllers
         {
             try
             {
-                ViewBag.error = TempData["eliminar_mesnaje"];
+                ViewBag.delete = TempData["eliminar_mesnaje"];
                 ViewBag.save = TempData["registrar_mesnaje"];
                 ViewBag.update = TempData["actualizar_mesnaje"];
             }
@@ -81,7 +81,7 @@ namespace AcademiaSoft.Controllers
             {
                 var mensaje= periododao.Eliminar(id);
                 TempData["eliminar_mesnaje"] = ""+mensaje+"";
-                ViewBag.error = TempData["eliminar_mesnaje"];
+                ViewBag.delete = TempData["eliminar_mesnaje"];
                 return RedirectToAction(nameof(Index));
             }
             return NotFound();
