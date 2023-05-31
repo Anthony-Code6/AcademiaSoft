@@ -1,3 +1,7 @@
+--DeberÃ­amos borrar el id del procedimiento almacenado
+--EL ID DEL PROCEDIMIENTO ALMACENADO ES PARA VALIDAR SI NO EXISTE
+USE Academia_Soft
+GO
 
 EXEC SP_REGISTRAR_USUARIO 1, 'prueba4@gmail.com', '232323', 'Profesor';
 EXEC SP_REGISTRAR_USUARIO 2, 'prueba8@gmail.com', '232323', 'Auxiliar';
@@ -10,8 +14,6 @@ EXEC SP_REGISTRAR_USUARIO 8, 'p6@gmail.com', '232323', 'Alumno';
 EXEC SP_REGISTRAR_USUARIO 9, 'p7@gmail.com', '232323', 'Alumno';
 EXEC SP_REGISTRAR_USUARIO 10, 'p8@gmail.com', '232323', 'Alumno';
 GO
-
-select * from alumno;
 
 INSERT INTO periodo (fectrimestre1, fectrimestre2, fectrimestre3, fectrimestre4) VALUES
 ('2021-03-31', '2021-06-30', '2021-09-30', '2021-12-31'),
@@ -33,45 +35,6 @@ INSERT INTO profesor (documento, nombre, apellido, idusuario) VALUES
 ('00000000', 'Miguel', 'Jose', 2);
 GO
 
---A mi parecer se podria cambiar la forma de como almacenar los cursos
-INSERT INTO curso (idaula, descripcion) VALUES
-(1, 'Matemáticas I'), (1, 'Educación Física'), (1, 'Ciencias de la Naturaleza'), (1, 'Lengua Castellana y Literatura'),
-(5, 'Matemáticas II'), (5, 'Educación Física'), (5, 'Ciencias de la Naturaleza'), (5, 'Computacion I'),
-(9, 'Matemáticas III'), (9, 'Educación Física'), (9, 'Educación Artística'), (9, 'Computacion I'), (9, 'Ingles I'),
-(13, 'Matemáticas IV'), (13, 'Educación Física'), (13, 'Educación Artística'), (13, 'Computacion II'), (13, 'Ingles II'), (13, 'Religion'),
-(17, 'Matemáticas V'), (17, 'Educación Física'), (17, 'Educación Artística'), (17, 'Cultura Civica'), (17, 'Ingles III'), (17, 'Religion'),
-(21, 'Persona, Familia y Relaciones Humanas'), (21, 'Ingles IV'), (21, 'Lengua Cooficial y Literatura'),
-
-(2, 'Matemáticas I'), (2, 'Educación Física'), (2, 'Ciencias de la Naturaleza'), (2, 'Lengua Castellana y Literatura'),
-(6, 'Matemáticas II'), (6, 'Educación Física'), (6, 'Ciencias de la Naturaleza'), (6, 'Computacion I'),
-(10, 'Matemáticas III'), (10, 'Educación Física'), (10, 'Educación Artística'), (10, 'Computacion I'), (10, 'Ingles I'),
-(14, 'Matemáticas IV'), (14, 'Educación Física'), (14, 'Educación Artística'), (14, 'Computacion II'), (14, 'Ingles II'), (14, 'Religion'),
-(18, 'Matemáticas V'), (18, 'Educación Física'), (18, 'Educación Artística'), (18, 'Cultura Civica'), (18, 'Ingles III'), (18, 'Religion'),
-(22, 'Persona, Familia y Relaciones Humanas'), (22, 'Ingles IV'), (22, 'Lengua Cooficial y Literatura'),
-
-(3, 'Matemáticas I'), (3, 'Educación Física'), (3, 'Ciencias de la Naturaleza'), (3, 'Lengua Castellana y Literatura'),
-(7, 'Matemáticas II'), (7, 'Educación Física'), (7, 'Ciencias de la Naturaleza'), (7, 'Computacion I'),
-(11, 'Matemáticas III'), (11, 'Educación Física'), (11, 'Educación Artística'), (11, 'Computacion I'), (10, 'Ingles I'),
-(15, 'Matemáticas IV'), (15, 'Educación Física'), (15, 'Educación Artística'), (15, 'Computacion II'), (15, 'Ingles II'), (15, 'Religion'),
-(19, 'Matemáticas V'), (19, 'Educación Física'), (19, 'Educación Artística'), (19, 'Cultura Civica'), (19, 'Ingles III'), (19, 'Religion'),
-(23, 'Persona, Familia y Relaciones Humanas'), (23, 'Ingles IV'), (23, 'Lengua Cooficial y Literatura'),
-
-(4, 'Matemáticas I'), (4, 'Educación Física'), (4, 'Ciencias de la Naturaleza'), (4, 'Lengua Castellana y Literatura'),
-(8, 'Matemáticas II'), (8, 'Educación Física'), (8, 'Ciencias de la Naturaleza'), (8, 'Computacion I'),
-(12, 'Matemáticas III'), (12, 'Educación Física'), (12, 'Educación Artística'), (12, 'Computacion I'), (12, 'Ingles I'),
-(16, 'Matemáticas IV'), (16, 'Educación Física'), (16, 'Educación Artística'), (16, 'Computacion II'), (16, 'Ingles II'), (16, 'Religion'),
-(20, 'Matemáticas V'), (20, 'Educación Física'), (20, 'Educación Artística'), (20, 'Cultura Civica'), (20, 'Ingles III'), (20, 'Religion'),
-(24, 'Persona, Familia y Relaciones Humanas'), (24, 'Ingles IV'), (24, 'Lengua Cooficial y Literatura');
-GO
-
-INSERT INTO curso_profesor (idprofesor, idcurso) VALUES
-(2,36), (2,50), (1,111), (2,3), (2,16), (2,13), (1,57),
-(1,46), (1,94), (1,32), (2,65), (2,101), (2,12), (2,98), (1,50),
-(2,26), (1,26), (1,52), (2,106), (1,61), (1,101), (1,10), (2,67),
-(1,57), (2,65), (1,6), (2,89), (1,66), (2,50), (2,43);
-GO
-
---No digamos nada de que los alumnos tienen un usuario para entrar al sistema, cambiemoslo en los escenarios
 INSERT INTO [alumno] (documento,nombre,apellido,idusuario)
 VALUES
   ('63766508','Hadley Turner','Clark Snow',7),
@@ -176,106 +139,188 @@ VALUES
   ('37704425','Ryan Ortega','Summer Kidd',6);
 GO
 
-INSERT INTO [matricula] (idalumno,idaula,fecha,idperiodo)
-VALUES
-(1, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(2, 2, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(3, 3, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(4, 4, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(5, 5, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(6, 6, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(7, 7, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(8, 8, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(9, 9, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(10, 10, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(11, 11, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(12, 12, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(13, 13, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(14, 14, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(15, 15, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(16, 16, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(17, 17, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(18, 18, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(19, 19, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(20, 20, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(21, 21, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(22, 22, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(23, 23, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(24, 24, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(25, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(26, 2, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(27, 3, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(28, 4, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(29, 5, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(30, 6, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(31, 7, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(32, 8, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(33, 9, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(34, 10, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(35, 11, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(36, 12, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(37, 13, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(38, 14, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(39, 15, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(40, 16, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(41, 17, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(42, 18, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(43, 19, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(44, 20, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(45, 21, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(46, 22, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(47, 23, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(48, 24, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(49, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(50, 2, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(51, 3, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(52, 4, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(53, 5, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(54, 6, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(55, 7, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(56, 8, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(57, 9, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(58, 10, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(59, 11, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(60, 12, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(61, 13, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(62, 14, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(63, 15, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(64, 16, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(65, 17, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(66, 18, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(67, 19, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(68, 20, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(69, 21, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(70, 22, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(71, 23, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(72, 24, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(73, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(74, 2, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(75, 3, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(76, 4, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(77, 5, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(78, 6, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(79, 7, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(80, 8, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(81, 9, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(82, 10, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(83, 11, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(84, 12, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(85, 13, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(86, 14, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(87, 15, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(88, 16, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(89, 17, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(90, 18, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(91, 19, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(92, 20, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(93, 21, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(94, 22, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(95, 23, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(96, 24, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(97, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(98, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(99, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3),
-(100, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') , 3);
+--A mi parecer se podria cambiar la forma de como almacenar los cursos
+INSERT INTO curso (descripcion) VALUES
+('MatemÃ¡ticas I'), ('MatemÃ¡ticas II'), ('MatemÃ¡ticas III'), ('MatemÃ¡ticas IV'), ('MatemÃ¡ticas V'), 
+('Lengua Castellana y Literatura'), ('Lengua Cooficial y Literatura'), ('Cultura Civica'), ('Persona, Familia y Relaciones Humanas'), 
+('Computacion I'), ('Computacion II'), ('Ingles I'), ('Ingles II'),  ('Ingles III'), ('Ingles IV'), 
+('EducaciÃ³n FÃ­sica'), ('Religion'), ('EducaciÃ³n ArtÃ­stica'), ('Ciencias de la Naturaleza');
 GO
+
+INSERT INTO [matricula] (idalumno, idaula, fecha)
+VALUES
+(1, 1, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(2, 2, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(3, 3, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(4, 4, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(5, 5, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(6, 6, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(7, 7, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(8, 8, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(9, 9, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(10, 10, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(11, 11, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(12, 12, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(13, 13, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(14, 14, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(15, 15, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(16, 16, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(17, 17, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(18, 18, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(19, 19, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(20, 20, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(21, 21, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(22, 22, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(23, 23, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(24, 24, CONCAT(FORMAT(sysdatetime(),'yyyy') - 2,FORMAT(sysdatetime(),'-MM-dd'))),
+(25, 1, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(26, 2, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(27, 3, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(28, 4, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(29, 5, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(30, 6, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(31, 7, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(32, 8, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(33, 9, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(34, 10, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(35, 11, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(36, 12, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(37, 13, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(38, 14, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(39, 15, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(40, 16, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(41, 17, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(42, 18, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(43, 19, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(44, 20, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(45, 21, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(46, 22, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(47, 23, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(48, 24, CONCAT(FORMAT(sysdatetime(),'yyyy') - 1,FORMAT(sysdatetime(),'-MM-dd'))),
+(49, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(50, 2, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(51, 3, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(52, 4, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(53, 5, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(54, 6, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(55, 7, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(56, 8, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(57, 9, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(58, 10, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(59, 11, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(60, 12, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(61, 13, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(62, 14, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(63, 15, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(64, 16, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(65, 17, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(66, 18, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(67, 19, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(68, 20, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(69, 21, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(70, 22, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(71, 23, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(72, 24, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(73, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(74, 2, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(75, 3, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(76, 4, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(77, 5, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(78, 6, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(79, 7, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(80, 8, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(81, 9, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(82, 10, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(83, 11, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(84, 12, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(85, 13, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(86, 14, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(87, 15, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(88, 16, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(89, 17, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(90, 18, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(91, 19, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(92, 20, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(93, 21, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(94, 22, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(95, 23, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(96, 24, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(97, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(98, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(99, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') ),
+(100, 1, FORMAT(sysdatetime(),'yyyy-MM-dd') );
+GO
+
+
+INSERT INTO cargo_profesor (idaula,idcurso,idprofesor,idperiodo)
+VALUES
+(16,15,1,3), (12,16,1,1), (19,14,2,2), (16,17,1,3), (17,4,2,2), (14,14,2,1),
+(12,13,2,2), (19,13,2,2), (16,16,2,3), (17,18,2,3), (7,16,1,2), (16,18,2,1),
+(8,14,1,2), (14,11,1,1), (20,17,2,1), (21,2,1,1), (6,4,2,3), (6,1,2,2), (8,7,2,1),
+(21,11,1,3), (9,3,2,2), (8,2,1,1), (11,8,2,3), (12,17,1,3), (10,13,1,3), (5,2,1,3),
+(5,9,2,1), (6,10,2,1), (13,1,1,3), (22,12,2,3), (20,3,2,2), (20,10,1,3), (4,18,1,2),
+(4,5,1,3), (3,16,1,2), (9,14,2,2), (10,17,2,2), (5,10,2,1), (24,8,1,2), (13,12,1,3),
+(2,8,2,2), (14,9,2,3), (7,9,1,3), (12,11,2,2), (21,11,2,2), (5,7,1,3), (10,1,2,2),
+(4,7,2,3), (13,15,2,2), (19,11,2,2), (9,2,1,2), (13,1,2,2), (9,15,1,3), (8,18,1,2),
+(22,10,2,1), (15,9,1,2), (19,16,2,3), (11,1,1,2), (17,16,1,2), (1,3,1,3), (10,6,1,3),
+(23,7,1,2), (13,16,2,2), (15,13,1,1), (19,17,1,3), (5,13,2,3), (8,7,1,3), (10,12,1,3),
+(8,16,1,1), (17,13,1,2), (15,1,1,2), (15,2,1,2), (22,4,1,1), (24,10,2,2),
+(2,17,1,1), (11,5,2,2), (12,10,1,2), (4,5,2,2), (22,3,1,2), (22,14,2,3), (21,13,2,3),
+(5,12,1,1), (11,7,1,3), (19,14,2,3), (18,9,1,2), (4,1,1,1), (24,5,2,1), (21,15,2,2),
+(2,9,1,2), (22,16,2,2), (10,17,2,1), (4,5,2,1), (5,10,1,2), (19,7,2,2), (19,17,2,2),
+(17,2,1,2), (14,3,2,1), (16,11,2,2), (24,18,2,1);
+
+--EXEC SP_CREAR_BOLETA_NOTA 46, 49;
+
+insert into boleta_nota (idcargo, idmatricula) values
+(46, 49), (26, 49), (66, 49), (46, 50), (26, 50), (66, 50), (46, 51),
+(26, 51), (66, 51), (46, 52), (26, 52), (66, 52), (46, 53), (26, 53),
+(66, 53), (46, 54), (26, 54), (66, 54), (46, 55), (26, 55), (66, 55),
+(46, 56), (26, 56), (66, 56), (46, 57), (26, 57), (66, 57), (46, 58),
+(26, 58), (66, 58), (46, 59), (26, 59), (66, 59), (46, 60), (26, 60),
+(66, 60), (46, 61), (26, 61), (66, 61), (61, 62), (68, 62), (25, 62),
+(61, 63), (68, 63), (25, 63), (61, 64), (68, 64), (25, 64), (61, 65),
+(68, 65), (25, 65), (61, 66), (68, 66), (25, 66), (61, 67), (68, 67),
+(25, 67), (61, 68), (68, 68), (25, 68), (61, 69), (68, 69), (25, 69),
+(61, 70), (68, 70), (25, 70), (61, 71), (68, 71), (25, 71), (61, 72),
+(68, 72), (25, 72), (61, 73), (68, 73), (25, 73), (61, 74), (68, 74),
+(25, 74), (1, 75), (4, 75), (9, 75), (1, 76), (4, 76), (9, 76), (1, 77),
+(4, 77), (9, 77), (1, 78), (4, 78), (9, 78), (1, 79), (4, 79), (9, 79),
+(1, 80), (4, 80), (9, 80), (1, 81), (4, 81), (9, 81), (1, 82), (4, 82),
+(9, 82), (1, 83), (4, 83), (9, 83), (1, 84), (4, 84), (9, 84), (1, 85),
+(4, 85), (9, 85), (1, 86), (4, 86), (9, 86), (1, 87), (4, 87), (9, 87),
+(84, 88), (65, 88), (57, 88), (84, 89), (65, 89), (57, 89), (84, 90),
+(65, 90), (57, 90), (84, 91), (65, 91), (57, 91), (84, 92), (65, 92),
+(57, 92), (84, 93), (65, 93), (57, 93), (84, 94), (65, 94), (57, 94),
+(84, 95), (65, 95), (57, 95), (84, 96), (65, 96), (57, 96), (84, 97),
+(65, 97), (57, 97), (84, 98), (65, 98), (57, 98), (84, 99), (65, 99),
+(57, 99), (84, 100), (65, 100), (57, 100);
+go
+
+/*
+select c.*, p.fectrimestre1 from cargo_profesor c inner join periodo p on p.id = c.idperiodo
+where year(p.fectrimestre1) = 2023 order by c.idaula
+
+select * from profesor
+select * from curso
+select * from cargo_profesor
+select * from aula
+select * from usuario
+select * from alumno
+select * from matricula
+select * from periodo
+select * from boleta_nota
+*/
+-- Ejemplos de uso de los procedimientos almacenados
+/*EXEC SP_REGISTRAR_USUARIO 1, 'prueba4@gmail.com', '232323', 'Profesor';
+EXEC SP_REGISTRAR_USUARIO 2, 'prueba8@gmail.com', '232323', 'Auxiliar';
+EXEC SP_LISTAR_USUARIO;
+
+EXEC SP_BORRAR_ALUMNO 'AL72';
+
+DELETE FROM CURSO_PROFESOR WHERE idprofesor, idcurso, idperiodo
+SELECT idprofesor, idcurso, idperiodo, count(*) as repeticiones FROM curso_profesor 
+     GROUP BY idprofesor, idcurso, idperiodo 
+     HAVING COUNT(*)>1;
+
+*/

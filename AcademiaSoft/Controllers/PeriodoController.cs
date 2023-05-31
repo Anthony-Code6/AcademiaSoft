@@ -12,9 +12,9 @@ namespace AcademiaSoft.Controllers
         {
             try
             {
-                ViewBag.delete = TempData["eliminar_mesnaje"];
-                ViewBag.save = TempData["registrar_mesnaje"];
-                ViewBag.update = TempData["actualizar_mesnaje"];
+                ViewBag.delete = TempData["eliminar_mensanje"];
+                ViewBag.save = TempData["registrar_mensanje"];
+                ViewBag.update = TempData["actualizar_mensanje"];
             }
             catch (Exception ex) { }
             return View(periododao.Listar());
@@ -37,8 +37,8 @@ namespace AcademiaSoft.Controllers
             if (ModelState.IsValid)
             {
                 periododao.Guardar(periodo);
-                TempData["registrar_mesnaje"] = "Se Registro Correctamente";
-                ViewBag.save = TempData["registrar_mesnaje"];
+                TempData["registrar_mensanje"] = "Se Registro Correctamente";
+                ViewBag.save = TempData["registrar_mensanje"];
                 return RedirectToAction(nameof(Index));
             }
             return View(periodo);
@@ -63,8 +63,8 @@ namespace AcademiaSoft.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    TempData["actualizar_mesnaje"] = "Se Actualizo Correctamente.";
-                    ViewBag.update = TempData["actualizar_mesnaje"];
+                    TempData["actualizar_mensanje"] = "Se Actualizo Correctamente.";
+                    ViewBag.update = TempData["actualizar_mensanje"];
                     periododao.Actualizar(periodo);
                     return RedirectToAction(nameof(Index));
                 }
@@ -80,8 +80,8 @@ namespace AcademiaSoft.Controllers
             if (id != null && periodo != null)
             {
                 var mensaje= periododao.Eliminar(id);
-                TempData["eliminar_mesnaje"] = ""+mensaje+"";
-                ViewBag.delete = TempData["eliminar_mesnaje"];
+                TempData["eliminar_mensanje"] = ""+mensaje+"";
+                ViewBag.delete = TempData["eliminar_mensanje"];
                 return RedirectToAction(nameof(Index));
             }
             return NotFound();

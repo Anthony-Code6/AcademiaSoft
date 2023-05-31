@@ -12,10 +12,10 @@ namespace AcademiaSoft.Controllers
         {
             try
             {
-                ViewBag.delete = TempData["eliminar_mesnaje"];
-                ViewBag.save = TempData["registrar_mesnaje"];
-                ViewBag.update = TempData["actualizar_mesnaje"];
-                ViewBag.error = TempData["error_mesnaje"];
+                ViewBag.delete = TempData["eliminar_mensanje"];
+                ViewBag.save = TempData["registrar_mensanje"];
+                ViewBag.update = TempData["actualizar_mensanje"];
+                ViewBag.error = TempData["error_mensanje"];
             }
             catch (Exception ex) { }
             var aula=auladao.Listar();
@@ -40,8 +40,8 @@ namespace AcademiaSoft.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    TempData["registrar_mesnaje"] = "Se Registro Correctamente";
-                    ViewBag.save = TempData["registrar_mesnaje"];
+                    TempData["registrar_mensanje"] = "Se Registro Correctamente";
+                    ViewBag.save = TempData["registrar_mensanje"];
                     auladao.Guardar(aula);
                     return RedirectToAction(nameof(Index));
                 }
@@ -60,8 +60,8 @@ namespace AcademiaSoft.Controllers
             {
                 return View(aula_existe);
             }
-            TempData["error_mesnaje"] = "El Aula no existe en el Sistema.";
-            ViewBag.error = TempData["error_mesnaje"];
+            TempData["error_mensanje"] = "El Aula no existe en el Sistema.";
+            ViewBag.error = TempData["error_mensanje"];
             return RedirectToAction(nameof(Index));
         }
 
@@ -76,15 +76,15 @@ namespace AcademiaSoft.Controllers
                 {
                     if (ModelState.IsValid)
                     {
-                        TempData["actualizar_mesnaje"] = "Se Actualizo Correctamente.";
-                        ViewBag.update = TempData["actualizar_mesnaje"];
+                        TempData["actualizar_mensanje"] = "Se Actualizo Correctamente.";
+                        ViewBag.update = TempData["actualizar_mensanje"];
                         auladao.Actualizar(aula);
                         return RedirectToAction(nameof(Index));
                     }
                     return View(aula);
                 }
-                TempData["error_mesnaje"] = "El Aula no existe en el Sistema.";
-                ViewBag.error = TempData["error_mesnaje"];
+                TempData["error_mensanje"] = "El Aula no existe en el Sistema.";
+                ViewBag.error = TempData["error_mensanje"];
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -96,7 +96,15 @@ namespace AcademiaSoft.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            return View();
+            Aula aula = auladao.Buscar(id);
+            if (id == null || aula ==null)
+            {
+                return NotFound();
+            }
+            var mensaje = auladao.Eliminar(id);
+            TempData["eliminar_mensanje"] = "" + mensaje + "";
+            ViewBag.delete = TempData["eliminar_mensanje"];
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: AulaController/Delete/5

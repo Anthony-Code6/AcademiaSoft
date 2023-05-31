@@ -73,7 +73,7 @@
                                 <td>@item.Descripcion</td>
                                 <td class="text-center">
                                     <a href="@Url.ActionLink("Edit","Aula",new{ Id=item.Id })" class="btn btn-warning"><i class="fas fa-edit"></i></a>
-                                    <form action="@Url.Action("Delete","Alumno",new{ Id=item.Id })" method="post" class="d-inline eliminar_alumno">
+                                    <form action="@Url.Action("Delete","Aula",new{ Id=item.Id })" method="post" class="d-inline eliminar_alumno">
                                         <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </td>

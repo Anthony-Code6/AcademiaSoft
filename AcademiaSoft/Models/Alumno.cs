@@ -12,7 +12,7 @@ namespace AcademiaSoft.Models
         public int Id { get; set; }
         public string Codigo { get; set; }
 
-        [Required(ErrorMessage ="Docuemnto es requerido.")]
+        [Required(ErrorMessage ="Documento es requerido.")]
         [StringLength(8,ErrorMessage ="La Longitud maxima es de 8.")]
         public string Documento { get; set; }
 
@@ -25,7 +25,7 @@ namespace AcademiaSoft.Models
         public string Apellido { get; set; }
 
         [Display(Name ="Usuario")]
-        [Required(ErrorMessage = "Tipo de Usuario es requerido.")]
+        [Required(ErrorMessage = "Usuario es requerido.")]
         [Range(1,10,ErrorMessage ="Debes seleccionar un Usuario.")]
         public int Idusuario { get; set; }
     }

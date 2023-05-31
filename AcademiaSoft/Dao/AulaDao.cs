@@ -100,5 +100,28 @@ namespace AcademiaSoft.Dao
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public string Eliminar(int id)
+        {
+            string mensaje = null;
+            try
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("SP_ELIMINAR_AULA", conn);
+                cmd.CommandType=System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.Add(new SqlParameter("@ID", id));
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    mensaje = (string) reader["MENSAJE"];
+                }
+                conn.Close ();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine (ex.Message);
+            }
+            return mensaje;
+        }
     }
 }

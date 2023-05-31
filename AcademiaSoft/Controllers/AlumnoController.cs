@@ -14,9 +14,9 @@ namespace AcademiaSoft.Controllers
         {
             try
             {
-                ViewBag.delete = TempData["eliminar_mesnaje"];
-                ViewBag.save = TempData["registrar_mesnaje"];
-                ViewBag.update = TempData["actualizar_mesnaje"];
+                ViewBag.delete = TempData["eliminar_mensanje"];
+                ViewBag.save = TempData["registrar_mensanje"];
+                ViewBag.update = TempData["actualizar_mensanje"];
             }
             catch (Exception ex) { }
 
@@ -39,8 +39,8 @@ namespace AcademiaSoft.Controllers
             if (ModelState.IsValid)
             {
                 alumnodao.Guardar(alumno);
-                TempData["registrar_mesnaje"] = "Se Registro Correctamente";
-                ViewBag.save = TempData["registrar_mesnaje"];
+                TempData["registrar_mensanje"] = "Se Registro Correctamente";
+                ViewBag.save = TempData["registrar_mensanje"];
                 return RedirectToAction(nameof(Index));
             }
             ViewBag.Usuarios = usuariodao.ListarUsuarios();
@@ -68,8 +68,8 @@ namespace AcademiaSoft.Controllers
         {
             if(ModelState.IsValid)
             {
-                TempData["actualizar_mesnaje"] = "Se Actualizo Correctamente.";
-                ViewBag.update = TempData["actualizar_mesnaje"];
+                TempData["actualizar_mensanje"] = "Se Actualizo Correctamente.";
+                ViewBag.update = TempData["actualizar_mensanje"];
                 alumnodao.Actualizar(alumno);
                 return RedirectToAction(nameof(Index));
             }
@@ -86,8 +86,8 @@ namespace AcademiaSoft.Controllers
             {
                 return NotFound();
             }
-            TempData["eliminar_mesnaje"] = "Se Elimino Correctamente el Alumno.";
-            ViewBag.delete = TempData["eliminar_mesnaje"];
+            TempData["eliminar_mensanje"] = "Se Elimino Correctamente el Alumno.";
+            ViewBag.delete = TempData["eliminar_mensanje"];
             alumnodao.Eliminar(id);
             return RedirectToAction(nameof(Index));
         }

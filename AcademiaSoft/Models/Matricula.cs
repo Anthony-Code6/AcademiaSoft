@@ -7,7 +7,7 @@
         public int Idalumno { get; set; }
         public int Idaula { get; set; }
         public DateTime Fecha { get; set; }
-        public int Idperiodo { get; set; }
+        //public int Idperiodo { get; set; }
 
         public Matricula()
         {
