@@ -19,7 +19,6 @@ namespace AcademiaSoft.Controllers
             catch (Exception ex) { }
             
             ViewBag.Matricula=matriculadao.ListarMatricula();
-            
             return View();
         }
 
