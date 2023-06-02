@@ -381,16 +381,71 @@ BEGIN
 END
 GO
 
-select aula.descripcion,alumno.nombre, boleta_nota.id,boleta_nota.idmatricula,boleta_nota.idcargo,boleta_nota.nota1,boleta_nota.nota2,boleta_nota.nota3,boleta_nota.nota4,boleta_nota.promedio
-from boleta_nota inner join matricula
-on boleta_nota.idmatricula=matricula.id inner join alumno
-on alumno.id=matricula.idalumno inner join aula
-on matricula.idaula = aula.id inner join profesor 
-on.profesor.id=boleta_nota.idcargo
-where profesor.id=1
-group by aula.descripcion,alumno.nombre,boleta_nota.id,boleta_nota.idmatricula,boleta_nota.idcargo,boleta_nota.nota1,boleta_nota.nota2,boleta_nota.nota3,boleta_nota.nota4,boleta_nota.promedio
+
+--exec prueba_boleta_informacion 14;
+
+
+-- falta validar la fecha 
+create procedure prueba_boleta_informacion
+@id int
+as
+begin
+	declare @mensaje varchar(200)
+	
+	if exists (select * from boleta_nota where id=@id)
+		begin 
+		declare @cargo int = (select idcargo from boleta_nota where id=@id)
+		declare @curso int = (select c.id from boleta_nota as b inner join cargo_profesor as cp
+							on cp.id=b.idcargo inner join curso as c
+							on c.id=cp.idcurso
+							where b.idcargo=@cargo
+							group by c.id)
+		declare @aula int = (select a.id from boleta_nota as b inner join cargo_profesor as cp
+							on cp.id=b.idcargo inner join aula as a
+							on a.id=cp.idaula
+							where b.idcargo=@cargo
+							group by a.id) 
+	    declare @profesor int = (select p.id from boleta_nota as b inner join cargo_profesor as cp
+							on cp.id=b.idcargo inner join profesor as p
+							on p.id=cp.idprofesor
+							where b.idcargo=26 
+							group by p.id)
+
+		if exists (select * from cargo_profesor where id=@cargo) and exists (select * from boleta_nota where idcargo=@cargo)
+			begin
+				select b.id,b.idmatricula,b.idcargo,b.nota1,b.nota2,b.nota3,b.nota4,b.promedio
+				from matricula as m inner join alumno as al
+				on m.idalumno = al.id left join boleta_nota as b
+				on b.idmatricula=m.id inner join aula as a
+				on a.id=m.idaula inner join cargo_profesor as cp
+				on cp.idaula = a.id inner join curso as c
+				on c.id=cp.idcurso inner join periodo as p
+				on p.id=cp.idperiodo inner join profesor as pf
+				on pf.id=cp.idprofesor
+				where m.idaula=@aula and pf.id=@profesor and c.id=@curso and b.id is not null and b.idcargo=@cargo
+				group by b.id,b.idmatricula,b.idcargo,b.nota1,b.nota2,b.nota3,b.nota4,b.promedio
+				order by b.id asc
+			end
+		else
+			begin
+				set @mensaje = 'No Existe el un Cargo asignado a la boleta'
+			end
+		end
+	else
+		begin 
+			set @mensaje = 'La Boleta no Existe en el Sistema'
+		end
+
+	if (@mensaje is not null)
+		begin 
+			select @mensaje as Mensaje;
+		end
+end
+go
 
 select * from aula
+
+
 
 
 
@@ -489,47 +544,3 @@ BEGIN
     END
 END
 GO
-
-
--- PROCEDIMIENTO ALMACENADO DE ***********
--- NO ESTAN EN FUNCIONAMIENTO
---CREATE PROCEDURE SP_CREAR_BOLETA_NOTA
---    @IDMATRICULA INT,
---    @IDCARGO INT
---AS
---BEGIN
---	IF NOT EXISTS (SELECT * FROM BOLETA_NOTA WHERE IDMATRICULA = @IDMATRICULA AND IDCARGO = @IDCARGO)
---    BEGIN
-
---		DECLARE @FECHA_PERIDO DATE = (SELECT year(p.fectrimestre1) FROM PERIODO AS P INNER JOIN CARGO_PROFESOR C ON C.idperiodo = P.id WHERE C.id =@IDMATRICULA);
---		DECLARE @FECHA_MATRICULA DATE =(SELECT year(fecha) FROM MATRICULA WHERE id = @IDCARGO);
-
---		IF (@FECHA_PERIDO = @FECHA_MATRICULA)
---        BEGIN
---			INSERT INTO BOLETA_NOTA (IDMATRICULA, IDCARGO) VALUES (@IDMATRICULA, @IDCARGO)
---		END
---    END
---END
---GO
-
---CREATE PROCEDURE SP_LISTAR_NOTA
---    @IDAULA INT,
---    @IDCURSO INT,
---    @IDPROFESOR INT,
---	@FECHA INT
---AS
---BEGIN
---	SELECT A.CODIGO, A.APELLIDO, A.NOMBRE, CU.DESCRIPCION AS CURSO, B.NOTA1, B.NOTA2, B.NOTA3, B.NOTA4, B.PROMEDIO
---	FROM ALUMNO AS A
---	INNER JOIN MATRICULA AS M ON A.id = M.idalumno
---	INNER JOIN BOLETA_NOTA AS B ON M.id = B.idmatricula
---	INNER JOIN CARGO_PROFESOR AS C ON C.id = B.idcargo
---	INNER JOIN CURSO AS CU ON CU.ID = C.idcurso
---	INNER JOIN PERIODO AS P ON C.idperiodo = P.id
---	WHERE C.idaula = @IDAULA AND C.idcurso = @IDCURSO AND C.idprofesor = @IDPROFESOR AND YEAR(P.fectrimestre1) = @FECHA
---	ORDER BY A.APELLIDO;
---END
---GO
-
-
-
