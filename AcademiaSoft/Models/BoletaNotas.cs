@@ -9,7 +9,7 @@ namespace AcademiaSoft.Models
 
         [Display(Name ="Matricula")]
         [Required(ErrorMessage = "La Matricula es requerida.")]
-        [Range(1,10,ErrorMessage ="")]
+        [Range(1,10,ErrorMessage ="Debes seleccionar una matricula")]
         public int Idmatricula { get; set; }
 
         [Display(Name ="Cargo")]

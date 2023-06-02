@@ -1,7 +1,6 @@
 ﻿@{
     ViewData["Title"] = "Notas";
 }
-@model IEnumerable<BoletaNotas>
 
 <div class="content-header">
     <div class="container-fluid">
@@ -11,7 +10,7 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-md-right">
-                    <a href="@Url.Action("Create","Notas")" class="btn btn-primary"><i class="fas fa-edit"></i>Registrar Notas</a>
+                    <!----><a href="@Url.Action("Create","Notas")" class="btn btn-primary"><i class="fas fa-edit"></i>Registrar Notas</a>
                 </ol>
             </div>
         </div>
@@ -26,7 +25,7 @@
                     <form>
                         <div class="card-body">
                             <label>Profesor / Materia</label>
-                            <div class="input-group">
+                            <div class="form-group">
                                 <select class="form-control">
                                     <option>-- Seleccione la Materia --</option>
                                     @foreach (var item in ViewBag.Matricula)
@@ -34,8 +33,12 @@
                                         <option></option>
                                     }
                                 </select>
-                                <button class="btn btn-outline-warning" type="submit">Buscar</button>
                             </div>
+                            <div class="form-group">
+                                <label>Fecha</label>
+                                <input type="date" class="form-control" />
+                            </div>
+                            <button class="btn btn-outline-warning" type="submit">Buscar</button>
                         </div>
 
                     </form>
@@ -75,10 +78,10 @@
                         <table class="table table-bordered" id="informacion_notas">
                             <thead>
                                 <tr>
-                                    <th>@Html.DisplayNameFor(model => model.Id)</th>
-                                    <th>CORREO ELECTRONICO</th>
-                                    <th>TIPO</th>
-                                    <th></th>
+                                    <th>#</th>
+                                    <th>Curso y Materia</th>
+                                    <th>Total</th>
+                                    <th>Años</th>
                                 </tr>
                             </thead>
                             <tbody>

@@ -1,15 +1,15 @@
---USE master;
---GO
+USE master;
+GO
 
---IF DB_ID('Academia_Soft') IS NOT NULL --IF EXISTS (SELECT name FROM sys.databases WHERE name = 'Academia_Soft')
---    DROP DATABASE Academia_Soft;
---GO
+IF DB_ID('Academia_Soft') IS NOT NULL --IF EXISTS (SELECT name FROM sys.databases WHERE name = 'Academia_Soft')
+    DROP DATABASE Academia_Soft;
+GO
 
---CREATE DATABASE Academia_Soft;
---GO
+CREATE DATABASE Academia_Soft;
+GO
 
---USE Academia_Soft;
---GO
+USE Academia_Soft;
+GO
 
 CREATE TABLE aula (
     id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -26,10 +26,10 @@ CREATE TABLE curso (
 CREATE TABLE periodo (
     id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     codigo AS ('PR' + RIGHT(CONVERT(VARCHAR, id), 200)),
-    fectrimestre1 DATETIME NOT NULL,
-    fectrimestre2 DATETIME,
-    fectrimestre3 DATETIME,
-    fectrimestre4 DATETIME
+    fectrimestre1 DATE NOT NULL,
+    fectrimestre2 DATE,
+    fectrimestre3 DATE,
+    fectrimestre4 DATE
 );
 --Nota: En un entorno real no debe haber bucles, se pueden crear otras bd para evitar los bucles y garantizar escalabilidad.
 CREATE TABLE usuario (
@@ -367,7 +367,128 @@ BEGIN
 END
 GO
 
+-- PROCEDIMIENTOS ALMACENADO NOTAS
 
+
+alter PROCEDURE SP_BUSCAR_BOLETAS
+	@IDCARGO INT
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM cargo_profesor WHERE id= @IDCARGO)
+	BEGIN
+		SELECT id,idmatricula,idcargo,nota1,nota2,nota3,nota4,promedio FROM boleta_nota WHERE idcargo = @IDCARGO
+	END
+END
+GO
+
+select aula.descripcion,alumno.nombre, boleta_nota.id,boleta_nota.idmatricula,boleta_nota.idcargo,boleta_nota.nota1,boleta_nota.nota2,boleta_nota.nota3,boleta_nota.nota4,boleta_nota.promedio
+from boleta_nota inner join matricula
+on boleta_nota.idmatricula=matricula.id inner join alumno
+on alumno.id=matricula.idalumno inner join aula
+on matricula.idaula = aula.id inner join profesor 
+on.profesor.id=boleta_nota.idcargo
+where profesor.id=1
+group by aula.descripcion,alumno.nombre,boleta_nota.id,boleta_nota.idmatricula,boleta_nota.idcargo,boleta_nota.nota1,boleta_nota.nota2,boleta_nota.nota3,boleta_nota.nota4,boleta_nota.promedio
+
+select * from aula
+
+
+
+----
+
+
+CREATE PROCEDURE SP_LISTAR_CURSO
+    @IDPROFESOR INT,
+	@FECHA INT
+AS
+BEGIN
+	SELECT C.ID, CONCAT(A.descripcion, ' - ', CU.DESCRIPCION) AS CURSO, year(p.fectrimestre1) AS ANIO
+	FROM CARGO_PROFESOR AS C
+	INNER JOIN AULA AS A ON C.idaula = A.id
+	INNER JOIN CURSO AS CU ON CU.ID = C.idcurso
+	INNER JOIN PERIODO AS P ON C.idperiodo = P.id
+	WHERE C.idprofesor = @IDPROFESOR AND YEAR(P.fectrimestre1) = @FECHA
+	ORDER BY CURSO;
+END
+GO
+/*EXEC SP_LISTAR_CURSO 1, 2023
+GO*/
+
+CREATE PROCEDURE SP_CREAR_BOLETA_NOTA
+    @IDMATRICULA INT,
+    @IDCARGO INT
+AS
+BEGIN
+	IF NOT EXISTS (SELECT * FROM BOLETA_NOTA WHERE IDMATRICULA = @IDMATRICULA AND IDCARGO = @IDCARGO)
+    BEGIN
+
+		DECLARE @FECHA_PERIODO INT = (SELECT year(p.fectrimestre1) FROM PERIODO AS P INNER JOIN CARGO_PROFESOR C ON C.idperiodo = P.id WHERE C.id =@IDMATRICULA);
+		DECLARE @FECHA_MATRICULA INT =(SELECT year(fecha) FROM MATRICULA WHERE id = @IDCARGO);
+
+		IF (@FECHA_PERIODO = @FECHA_MATRICULA)
+        BEGIN
+			INSERT INTO BOLETA_NOTA (IDMATRICULA, IDCARGO) VALUES (@IDMATRICULA, @IDCARGO)
+		END
+    END
+END
+GO
+
+--Actualizar nota
+CREATE PROCEDURE SP_ACTUALIZAR_NOTA
+	@ID INT,
+    @NOTA1 DECIMAL(4,2),
+    @NOTA2 DECIMAL(4,2),
+    @NOTA3 DECIMAL(4,2),
+    @NOTA4 DECIMAL(4,2),
+	@FECHA_ACTUAL DATETIME
+AS
+BEGIN
+	IF EXISTS (SELECT * FROM BOLETA_NOTA WHERE ID = @ID)
+    BEGIN
+		DECLARE @FECHA_PERIODO1 DATETIME = (SELECT p.fectrimestre1
+											FROM BOLETA_NOTA AS B
+											INNER JOIN CARGO_PROFESOR C ON C.id = B.idcargo
+											INNER JOIN PERIODO P ON P.id = C.idperiodo
+											WHERE B.id =@ID);
+		DECLARE @FECHA_PERIODO2 DATETIME = (SELECT p.fectrimestre2
+											FROM BOLETA_NOTA AS B
+											INNER JOIN CARGO_PROFESOR C ON C.id = B.idcargo
+											INNER JOIN PERIODO P ON P.id = C.idperiodo
+											WHERE B.id =@ID);
+		DECLARE @FECHA_PERIODO3 DATETIME = (SELECT p.fectrimestre3
+											FROM BOLETA_NOTA AS B
+											INNER JOIN CARGO_PROFESOR C ON C.id = B.idcargo
+											INNER JOIN PERIODO P ON P.id = C.idperiodo
+											WHERE B.id =@ID);
+		DECLARE @FECHA_PERIODO4 DATETIME = (SELECT p.fectrimestre4
+											FROM BOLETA_NOTA AS B
+											INNER JOIN CARGO_PROFESOR C ON C.id = B.idcargo
+											INNER JOIN PERIODO P ON P.id = C.idperiodo
+											WHERE B.id =@ID);
+		IF (@FECHA_ACTUAL < @FECHA_PERIODO1)
+        BEGIN
+			UPDATE BOLETA_NOTA SET NOTA1=@NOTA1 WHERE ID=@ID;
+		END
+		IF (@FECHA_ACTUAL < @FECHA_PERIODO2)
+        BEGIN
+			UPDATE BOLETA_NOTA SET NOTA2=@NOTA2 WHERE ID=@ID;
+		END
+		IF (@FECHA_ACTUAL < @FECHA_PERIODO3)
+        BEGIN
+			UPDATE BOLETA_NOTA SET NOTA3=@NOTA3 WHERE ID=@ID;
+		END
+		IF (@FECHA_ACTUAL < @FECHA_PERIODO4)
+        BEGIN
+			UPDATE BOLETA_NOTA SET NOTA4=@NOTA4 WHERE ID=@ID;
+		END
+
+		DECLARE @PROMEDIO DECIMAL = (SELECT (NOTA1+NOTA2+NOTA3+NOTA4)/4 FROM BOLETA_NOTA WHERE ID = @ID);
+		UPDATE BOLETA_NOTA SET PROMEDIO = @PROMEDIO WHERE ID=@ID;
+
+		SELECT * from boleta_nota where id = @ID;
+    END
+END
+GO
 
 
 -- PROCEDIMIENTO ALMACENADO DE ***********

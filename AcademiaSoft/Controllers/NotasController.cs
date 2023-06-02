@@ -7,6 +7,12 @@ namespace AcademiaSoft.Controllers
 {
     public class NotasController : Controller
     {
+        AlumnoDao alumnoDao;
+        AulaDao aulaDao;
+        NotasDao notasDao;
+        MatriculaDao matriculaDao;
+
+
         MatriculaDao matriculadao = new MatriculaDao();
         public ActionResult Index()
         {
@@ -19,6 +25,7 @@ namespace AcademiaSoft.Controllers
             catch (Exception ex) { }
             
             ViewBag.Matricula=matriculadao.ListarMatricula();
+            
             return View();
         }
 
@@ -52,7 +59,18 @@ namespace AcademiaSoft.Controllers
         // GET: NotasController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            BoletaNotas boleta = notasDao.BuscarMatricula(id);
+
+            if (id!=null && boleta!=null)
+            {
+                ViewBag.Alumno = alumnoDao.ListarAlumnos();
+                ViewBag.Aula = aulaDao.Listar();
+                ViewBag.Matricula = matriculaDao.ListarMatricula();
+                ViewBag.Boleta = boleta;
+                return View();
+            }
+            return RedirectToAction(nameof(Index));
+            
         }
 
         // POST: NotasController/Edit/5

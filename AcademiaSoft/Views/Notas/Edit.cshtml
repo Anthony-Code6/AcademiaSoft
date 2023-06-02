@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Notas | Editar";
+}
+
+@model AcademiaSoft.Models.BoletaNotas
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">Notas | Editar</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="card shadow-lg p-3 mb-5 bg-body rounded">
+            <div class="card-header">
+                <h5 style="float:left">Materia: </h5>
+                <spam style="float:right">Total: </spam>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Alumno</th>
+                            <th>1°</th>
+                            <th>2°</th>
+                            <th>3°</th>
+                            <th>4°</th>
+                        </tr>
+                    </thead>
+                    <form asp-action="Create">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <tbody>
+                            @foreach (var boleta in ViewBag.Boleta)
+                            {
+                                <tr>
+                                    <td></td>
+                                    <td>
+                                        @foreach (var matricula in ViewBag.Matricula)
+                                        {
+                                            @if (boleta.Idmatricula == matricula.Id)
+                                            {
+                                                @foreach(var alumno in ViewBag.Alumno){
+                                                    @if (matricula.Idalumno == alumno.Id)
+                                                    {
+                                                        @alumno.Nombre
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </form>
+                    
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</div>
+@section scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+    <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+}
