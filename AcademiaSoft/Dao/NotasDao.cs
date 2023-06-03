@@ -15,7 +15,7 @@ namespace AcademiaSoft.Dao
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("SP_BUSCAR_BOLETAS",conn);
+                SqlCommand cmd = new SqlCommand("",conn);
                 cmd.CommandType = System.Data.CommandType.StoredProcedure;
                 cmd.Parameters.Add(new SqlParameter("@IDCARGO", idmatricula));
                 SqlDataReader reader = cmd.ExecuteReader();

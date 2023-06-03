@@ -8,7 +8,7 @@ namespace AcademiaSoft.Dao
     {
         public SqlConnection conn = Conexion.getConexion();
 
-        public List<Matricula> ListarMatricula()
+        public List<Matricula> ListarAlumnoMatricula()
         {
             List<Matricula> list = new List<Matricula>();
             conn.Open();

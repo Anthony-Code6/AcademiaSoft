@@ -367,31 +367,22 @@ BEGIN
 END
 GO
 
--- PROCEDIMIENTOS ALMACENADO NOTAS
 
 
-alter PROCEDURE SP_BUSCAR_BOLETAS
-	@IDCARGO INT
-AS
-BEGIN
-	IF EXISTS (SELECT * FROM cargo_profesor WHERE id= @IDCARGO)
-	BEGIN
-		SELECT id,idmatricula,idcargo,nota1,nota2,nota3,nota4,promedio FROM boleta_nota WHERE idcargo = @IDCARGO
-	END
-END
-GO
 
 
---exec prueba_boleta_informacion 14;
+/* PROCEDIMIENTO ALMACENADO BOLETA NOTAS */
 
+--EXEC SP_BUSCAR_ALUMNOS_MATRICULADO_BOLETA 26,'09-09-2023'
 
--- falta validar la fecha 
-create procedure prueba_boleta_informacion
-@id int
+CREATE procedure SP_BUSCAR_ALUMNOS_MATRICULADO_BOLETA
+@id int,
+@fecha date
 as
 begin
 	declare @mensaje varchar(200)
 	
+
 	if exists (select * from boleta_nota where id=@id)
 		begin 
 		declare @cargo int = (select idcargo from boleta_nota where id=@id)
@@ -408,27 +399,40 @@ begin
 	    declare @profesor int = (select p.id from boleta_nota as b inner join cargo_profesor as cp
 							on cp.id=b.idcargo inner join profesor as p
 							on p.id=cp.idprofesor
-							where b.idcargo=26 
+							where b.idcargo=@cargo
 							group by p.id)
 
-		if exists (select * from cargo_profesor where id=@cargo) and exists (select * from boleta_nota where idcargo=@cargo)
+		declare @fecha_perido varchar(4) = (select year(pr.fectrimestre1) from boleta_nota as b inner join cargo_profesor as cp
+							on cp.id=b.idcargo inner join periodo as pr
+							on pr.id=cp.idperiodo
+							where b.idcargo=@cargo and year(pr.fectrimestre1)=year(@fecha) and year(pr.fectrimestre2)=year(@fecha) and year(pr.fectrimestre3)=year(@fecha) and year(pr.fectrimestre4)=year(@fecha)
+							group by year(pr.fectrimestre1))
+
+		if (@fecha_perido is not null)
 			begin
-				select b.id,b.idmatricula,b.idcargo,b.nota1,b.nota2,b.nota3,b.nota4,b.promedio
-				from matricula as m inner join alumno as al
-				on m.idalumno = al.id left join boleta_nota as b
-				on b.idmatricula=m.id inner join aula as a
-				on a.id=m.idaula inner join cargo_profesor as cp
-				on cp.idaula = a.id inner join curso as c
-				on c.id=cp.idcurso inner join periodo as p
-				on p.id=cp.idperiodo inner join profesor as pf
-				on pf.id=cp.idprofesor
-				where m.idaula=@aula and pf.id=@profesor and c.id=@curso and b.id is not null and b.idcargo=@cargo
-				group by b.id,b.idmatricula,b.idcargo,b.nota1,b.nota2,b.nota3,b.nota4,b.promedio
-				order by b.id asc
+				if exists (select * from cargo_profesor where id=@cargo) and exists (select * from boleta_nota where idcargo=@cargo)
+					begin
+						select b.id,b.idmatricula,b.idcargo,b.nota1,b.nota2,b.nota3,b.nota4,b.promedio
+						from matricula as m inner join alumno as al
+						on m.idalumno = al.id left join boleta_nota as b
+						on b.idmatricula=m.id inner join aula as a
+						on a.id=m.idaula inner join cargo_profesor as cp
+						on cp.idaula = a.id inner join curso as c
+						on c.id=cp.idcurso inner join periodo as p
+						on p.id=cp.idperiodo inner join profesor as pf
+						on pf.id=cp.idprofesor
+						where m.idaula=@aula and pf.id=@profesor and c.id=@curso and b.id is not null and b.idcargo=@cargo and year(p.fectrimestre4)=year(getdate())
+						group by b.id,b.idmatricula,b.idcargo,b.nota1,b.nota2,b.nota3,b.nota4,b.promedio
+						order by b.id asc
+					end
+				else
+					begin
+						set @mensaje = 'No Existe el un Cargo asignado a la boleta'
+					end
 			end
 		else
 			begin
-				set @mensaje = 'No Existe el un Cargo asignado a la boleta'
+				set @mensaje = concat('Error no Existe una boleta en el periodo ',year(@fecha))
 			end
 		end
 	else
@@ -443,31 +447,78 @@ begin
 end
 go
 
-select * from aula
 
 
 
-
-
-----
-
-
-CREATE PROCEDURE SP_LISTAR_CURSO
-    @IDPROFESOR INT,
-	@FECHA INT
+CREATE PROCEDURE SP_LISTAR_CURSOS_BOLETA
+@FECHA DATE
 AS
 BEGIN
-	SELECT C.ID, CONCAT(A.descripcion, ' - ', CU.DESCRIPCION) AS CURSO, year(p.fectrimestre1) AS ANIO
-	FROM CARGO_PROFESOR AS C
-	INNER JOIN AULA AS A ON C.idaula = A.id
-	INNER JOIN CURSO AS CU ON CU.ID = C.idcurso
-	INNER JOIN PERIODO AS P ON C.idperiodo = P.id
-	WHERE C.idprofesor = @IDPROFESOR AND YEAR(P.fectrimestre1) = @FECHA
-	ORDER BY CURSO;
+	IF (@FECHA IS NOT NULL)
+		BEGIN
+			select b.idcargo,a.codigo,c.descripcion,p.fectrimestre1 as inicio,p.fectrimestre4 as final,count(al.id) as total,m.fecha as matricula
+			from boleta_nota as b inner join cargo_profesor as cp
+			on cp.id=b.idcargo inner join aula as a 
+			on a.id=cp.idaula inner join profesor as pf
+			on pf.id=cp.idprofesor inner join curso as c
+			on c.id=cp.idcurso inner join periodo as p
+			on p.id=cp.idperiodo inner join matricula as m
+			on m.id=b.idmatricula inner join alumno as al
+			on al.id=m.idalumno
+			where year(m.fecha)=year(@FECHA)
+			group by b.idcargo,a.codigo,c.descripcion,p.fectrimestre1,p.fectrimestre4,m.fecha
+		END
+	ELSE
+		BEGIN
+			select b.idcargo,a.codigo,c.descripcion,p.fectrimestre1 as inicio,p.fectrimestre4 as final,count(al.id) as total,m.fecha as matricula
+			from boleta_nota as b inner join cargo_profesor as cp
+			on cp.id=b.idcargo inner join aula as a 
+			on a.id=cp.idaula inner join profesor as pf
+			on pf.id=cp.idprofesor inner join curso as c
+			on c.id=cp.idcurso inner join periodo as p
+			on p.id=cp.idperiodo inner join matricula as m
+			on m.id=b.idmatricula inner join alumno as al
+			on al.id=m.idalumno
+			where year(m.fecha)=year(getdate())
+			group by b.idcargo,a.codigo,c.descripcion,p.fectrimestre1,p.fectrimestre4,m.fecha
+		END
 END
 GO
-/*EXEC SP_LISTAR_CURSO 1, 2023
-GO*/
+
+
+EXEC SP_LISTAR_CURSOS_BOLETA '03-12-2022'
+
+
+
+
+/*	SE ELIMINO EL PROCEDIMIENTO ALMACENADO SP_BUSCAR_BOLETAS	*/
+--create PROCEDURE SP_BUSCAR_BOLETAS
+--	@IDCARGO INT
+--AS
+--BEGIN
+--	IF EXISTS (SELECT * FROM cargo_profesor WHERE id= @IDCARGO)
+--	BEGIN
+--		SELECT id,idmatricula,idcargo,nota1,nota2,nota3,nota4,promedio FROM boleta_nota WHERE idcargo = @IDCARGO
+--	END
+--END
+--GO
+
+/*	SE ELIMINO EL PROCEDIMIENTO ALMACENADO SP_BUSCAR_BOLETAS	*/
+--CREATE PROCEDURE SP_LISTAR_CURSO
+--    @IDPROFESOR INT,
+--	@FECHA INT
+--AS
+--BEGIN
+--	SELECT C.ID, CONCAT(A.descripcion, ' - ', CU.DESCRIPCION) AS CURSO, year(p.fectrimestre1) AS ANIO
+--	FROM CARGO_PROFESOR AS C
+--	INNER JOIN AULA AS A ON C.idaula = A.id
+--	INNER JOIN CURSO AS CU ON CU.ID = C.idcurso
+--	INNER JOIN PERIODO AS P ON C.idperiodo = P.id
+--	WHERE C.idprofesor = @IDPROFESOR AND YEAR(P.fectrimestre1) = @FECHA
+--	ORDER BY CURSO;
+--END
+--GO
+
 
 CREATE PROCEDURE SP_CREAR_BOLETA_NOTA
     @IDMATRICULA INT,
