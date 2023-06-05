@@ -56,10 +56,15 @@ namespace AcademiaSoft.Controllers
         }
 
         // GET: NotasController/Edit/5
-        public ActionResult Edit(int id,string fecha)
+        public ActionResult Edit(int id)
         {
-            return View();
-            
+            if (id != null)
+            {
+                var notas = notasDao.ListarMatriculaProfesorAlumno(26);
+                return View();
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: NotasController/Edit/5

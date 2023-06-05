@@ -36,31 +36,7 @@
                     <form asp-action="Create">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <tbody>
-                            @foreach (var boleta in ViewBag.Boleta)
-                            {
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        @foreach (var matricula in ViewBag.Matricula)
-                                        {
-                                            @if (boleta.Idmatricula == matricula.Id)
-                                            {
-                                                @foreach(var alumno in ViewBag.Alumno){
-                                                    @if (matricula.Idalumno == alumno.Id)
-                                                    {
-                                                        @alumno.Nombre
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            }
+                            
                         </tbody>
                     </form>
                     

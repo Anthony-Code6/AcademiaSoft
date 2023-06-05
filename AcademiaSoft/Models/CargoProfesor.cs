@@ -2,7 +2,7 @@
 
 namespace AcademiaSoft.Models
 {
-    public class CursoProfesor
+    public class CargoProfesor
     {
         [Key]
         public int Id { get; set; }

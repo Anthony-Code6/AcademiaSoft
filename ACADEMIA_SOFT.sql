@@ -360,6 +360,8 @@ BEGIN
 END
 GO
 
+
+--
 CREATE PROCEDURE SP_LISTAR_MATRICULA
 AS
 BEGIN
@@ -368,6 +370,23 @@ END
 GO
 
 
+--
+CREATE PROCEDURE SP_LISTAR_CURSO
+AS
+BEGIN
+	SELECT id,codigo,descripcion FROM CURSO;
+END
+GO
+
+
+--
+CREATE PROCEDURE SP_LISTAR_PROFESOR
+AS
+BEGIN
+    SELECT id, codigo, documento, nombre, apellido, idusuario
+    FROM profesor;
+END
+GO
 
 
 
