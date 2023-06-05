@@ -2,8 +2,6 @@
     ViewData["Title"] = "Notas | Editar";
 }
 
-@model AcademiaSoft.Models.BoletaNotas
-
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -33,13 +31,19 @@
                             <th>4°</th>
                         </tr>
                     </thead>
-                    <form asp-action="Create">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <tbody>
-                            
-                        </tbody>
-                    </form>
-                    
+                        @foreach (var item in ViewBag.Notas)
+                        {
+                            <tr>
+                                <td></td
+                                <td></td>
+                                <td>@item.nota1</td>
+                                <td>@item.nota2</td>
+                                <td>@item.nota3</td>
+                                <td>@item.nota4</td>
+                            </tr>
+                        }
+                    </tbody>
                 </table>
             </div>
         </div>

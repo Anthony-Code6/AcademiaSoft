@@ -1,7 +1,6 @@
 ﻿using AcademiaSoft.Models;
 using AcademiaSoft.Services;
 using Microsoft.Data.SqlClient;
-using System.Collections.Generic;
 
 namespace AcademiaSoft.Dao
 {
@@ -129,7 +128,7 @@ namespace AcademiaSoft.Dao
                          Nombre = (string)reader["nombre"],
                          Apellido = (string)reader["apellido"],
                          Idusuario = Convert.ToInt32(reader["idusuario"])
-                });
+                    });
                 }
                 conn.Close();
             }

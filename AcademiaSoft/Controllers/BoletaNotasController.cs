@@ -5,42 +5,30 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AcademiaSoft.Controllers
 {
-    public class NotasController : Controller
+    public class BoletaNotasController : Controller
     {
-        AlumnoDao alumnoDao;
-        AulaDao aulaDao;
-        NotasDao notasDao;
-        MatriculaDao matriculaDao;
+        BoletaNotasDao boletaNotasDao = new BoletaNotasDao();
 
 
-        MatriculaDao matriculadao;
+        // GET: BoletaNotasController
         public ActionResult Index()
         {
-            try
-            {
-                ViewBag.delete = TempData["eliminar_mensanje"];
-                ViewBag.save = TempData["registrar_mensanje"];
-                ViewBag.update = TempData["actualizar_mensanje"];
-            }
-            catch (Exception ex) { }
-            
-            
             return View();
         }
 
-        // GET: NotasController/Details/5
+        // GET: BoletaNotasController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: NotasController/Create
+        // GET: BoletaNotasController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: NotasController/Create
+        // POST: BoletaNotasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -55,19 +43,18 @@ namespace AcademiaSoft.Controllers
             }
         }
 
-        // GET: NotasController/Edit/5
+        // GET: BoletaNotasController/Edit/5
         public ActionResult Edit(int id)
         {
-            if (id != null)
+            if (id != null || id>0)
             {
-                var notas = notasDao.ListarMatriculaProfesorAlumno(26);
+                ViewBag.Notas = boletaNotasDao.Listar(id);
                 return View();
             }
-
             return RedirectToAction(nameof(Index));
         }
 
-        // POST: NotasController/Edit/5
+        // POST: BoletaNotasController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -82,13 +69,13 @@ namespace AcademiaSoft.Controllers
             }
         }
 
-        // GET: NotasController/Delete/5
+        // GET: BoletaNotasController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: NotasController/Delete/5
+        // POST: BoletaNotasController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)

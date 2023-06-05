@@ -1,6 +1,5 @@
 ﻿using AcademiaSoft.Dao;
 using AcademiaSoft.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AcademiaSoft.Controllers
@@ -9,7 +8,7 @@ namespace AcademiaSoft.Controllers
     {
         AlumnoDao alumnodao=new AlumnoDao();
         UsuarioDao usuariodao=new UsuarioDao();
-
+        
         public ActionResult Index()
         {
             try
@@ -22,6 +21,7 @@ namespace AcademiaSoft.Controllers
 
             var alumnos = alumnodao.ListarAlumnos();
             var usuarios = usuariodao.ListarUsuarios();
+
             return View(new {alumnos, usuarios });
         }
 

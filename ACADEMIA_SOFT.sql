@@ -1,15 +1,15 @@
-USE master;
-GO
+--USE master;
+--GO
 
-IF DB_ID('Academia_Soft') IS NOT NULL --IF EXISTS (SELECT name FROM sys.databases WHERE name = 'Academia_Soft')
-    DROP DATABASE Academia_Soft;
-GO
+--IF DB_ID('Academia_Soft') IS NOT NULL --IF EXISTS (SELECT name FROM sys.databases WHERE name = 'Academia_Soft')
+--    DROP DATABASE Academia_Soft;
+--GO
 
-CREATE DATABASE Academia_Soft;
-GO
+--CREATE DATABASE Academia_Soft;
+--GO
 
-USE Academia_Soft;
-GO
+--USE Academia_Soft;
+--GO
 
 CREATE TABLE aula (
     id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -338,7 +338,7 @@ BEGIN
 END
 GO
 
-CREATE PROCEDURE SP_ELIMINAR_AULA
+create PROCEDURE SP_ELIMINAR_AULA
 @ID INT
 AS
 BEGIN
@@ -388,23 +388,18 @@ BEGIN
 END
 GO
 
-
-
 /* PROCEDIMIENTO ALMACENADO BOLETA NOTAS */
 
---EXEC SP_BUSCAR_ALUMNOS_MATRICULADO_BOLETA 26,'09-09-2023'
+--EXEC SP_BUSCAR_ALUMNOS_MATRICULADO_BOLETA 2698,''
 
 CREATE procedure SP_BUSCAR_ALUMNOS_MATRICULADO_BOLETA
-@id int,
-@fecha date
+@CODIGO int
 as
 begin
-	declare @mensaje varchar(200)
-	
-
-	if exists (select * from boleta_nota where id=@id)
+declare @MENSAJE varchar(200)
+	if exists (select * from boleta_nota where id=@CODIGO)
 		begin 
-		declare @cargo int = (select idcargo from boleta_nota where id=@id)
+		declare @cargo int = (select idcargo from boleta_nota where id=@CODIGO)
 		declare @curso int = (select c.id from boleta_nota as b inner join cargo_profesor as cp
 							on cp.id=b.idcargo inner join curso as c
 							on c.id=cp.idcurso
@@ -424,7 +419,7 @@ begin
 		declare @fecha_perido varchar(4) = (select year(pr.fectrimestre1) from boleta_nota as b inner join cargo_profesor as cp
 							on cp.id=b.idcargo inner join periodo as pr
 							on pr.id=cp.idperiodo
-							where b.idcargo=@cargo and year(pr.fectrimestre1)=year(@fecha) and year(pr.fectrimestre2)=year(@fecha) and year(pr.fectrimestre3)=year(@fecha) and year(pr.fectrimestre4)=year(@fecha)
+							where b.idcargo=@cargo and year(pr.fectrimestre1)=year(getdate()) and year(pr.fectrimestre2)=year(getdate()) and year(pr.fectrimestre3)=year(getdate()) and year(pr.fectrimestre4)=year(getdate())
 							group by year(pr.fectrimestre1))
 
 		if (@fecha_perido is not null)
@@ -446,22 +441,22 @@ begin
 					end
 				else
 					begin
-						set @mensaje = 'No Existe el un Cargo asignado a la boleta'
+						set @MENSAJE = 'No Existe el un Cargo asignado a la boleta'
 					end
 			end
 		else
 			begin
-				set @mensaje = concat('Error no Existe una boleta en el periodo ',year(@fecha))
+				set @MENSAJE = 'Error no Existe una boleta en el periodo '
 			end
 		end
 	else
 		begin 
-			set @mensaje = 'La Boleta no Existe en el Sistema'
+			set @MENSAJE = 'La Boleta no Existe en el Sistema'
 		end
 
 	if (@mensaje is not null)
 		begin 
-			select @mensaje as Mensaje;
+			select @MENSAJE as Mensaje;
 		end
 end
 go
