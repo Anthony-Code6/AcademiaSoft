@@ -19,21 +19,21 @@ namespace AcademiaSoft.Models
 
         [Required(ErrorMessage ="La Primera nota es requerida.")]
         [RegularExpression("(^[0-20]+$)", ErrorMessage = "Solo se permiten números")]
-        public decimal Nota1 { get; set; }
+        public decimal? Nota1 { get; set; }
 
         [Required(ErrorMessage = "La Segunda nota es requerida.")]
         [RegularExpression("(^[0-20]+$)", ErrorMessage = "Solo se permiten números")]
-        public decimal Nota2 { get; set; }
+        public decimal? Nota2 { get; set; }
 
         [Required(ErrorMessage = "La Tercera nota es requerida.")]
         [RegularExpression("(^[0-20]+$)", ErrorMessage = "Solo se permiten números")]
-        public decimal Nota3 { get; set; }
+        public decimal? Nota3 { get; set; }
 
         [Required(ErrorMessage = "La Cuarta nota es requerida.")]
         [RegularExpression("(^[0-20]+$)", ErrorMessage = "Solo se permiten números")]
-        public decimal Nota4 { get; set; }
+        public decimal? Nota4 { get; set; }
         
-        public decimal Promedio { get; set; }
+        public decimal? Promedio { get; set; }
 
         public BoletaNotas()
         {

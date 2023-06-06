@@ -12,36 +12,27 @@ namespace AcademiaSoft.Dao
         public List<BoletaNotas> Listar(int ids)
         {
             List<BoletaNotas> list = new List<BoletaNotas>();
-            try
-            {
-                conn.Open();
-                SqlCommand comando = new SqlCommand("SP_BUSCAR_ALUMNOS_MATRICULADO_BOLETA", conn);
+            conn.Open();
+            using (SqlCommand comando = new SqlCommand("SP_BUSCAR_ALUMNOS_MATRICULADO_BOLETA", conn)) {
                 comando.CommandType = CommandType.StoredProcedure;
                 comando.Parameters.Add(new SqlParameter("@CODIGO", ids));
                 SqlDataReader reader= comando.ExecuteReader();
-                if (reader.HasRows)
+                while (reader.Read())
                 {
-                    while (reader.Read())
+                    list.Add(new BoletaNotas()
                     {
-                        list.Add(new BoletaNotas()
-                        {
-                            Id = Convert.ToInt32(reader["id"]),
-                            Idmatricula = Convert.ToInt32(reader["idmatricula"]),
-                            Idcargo = Convert.ToInt32(reader["idcargo"]),
-                            Nota1 = Convert.ToDecimal(reader["nota1"]),
-                            Nota2 = Convert.ToDecimal(reader["nota2"]),
-                            Nota3 = Convert.ToDecimal(reader["nota3"]),
-                            Nota4 = Convert.ToDecimal(reader["nota4"]),
-                            Promedio = Convert.ToDecimal(reader["promedio"])
-                        });
-                    }
+                        Id = Convert.ToInt32(reader["id"]),
+                        Idmatricula = Convert.ToInt32(reader["idmatricula"]),
+                        Idcargo = Convert.ToInt32(reader["idcargo"]),
+                        Nota1 = Convert.ToDecimal(reader["nota1"]),
+                        Nota2 = Convert.ToDecimal(reader["nota2"]),
+                        Nota3 = Convert.ToDecimal(reader["nota3"]),
+                        Nota4 = Convert.ToDecimal(reader["nota4"]),
+                        Promedio = Convert.ToDecimal(reader["promedio"])
+                    });
                 }
                 conn.Close();
-            }catch (Exception ex)
-            {
-                Console.WriteLine("Error Listar data prueba"+ex.Message);
             }
-            
             return list;
         }
 
