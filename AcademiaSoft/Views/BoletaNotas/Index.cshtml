@@ -85,12 +85,38 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Curso y Materia</th>
+                                    <th>Aula y Materia</th>
                                     <th>Total</th>
                                     <th>Años</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach (var cargo in ViewBag.CargoProfesor)
+                                {
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            @foreach (var aula in ViewBag.Aula)
+                                            {
+                                                @if (aula.Id==cargo.Idaula)
+                                                {
+                                                    @aula.Descripcion
+                                                }
+                                            }
+
+                                            @foreach(var curso in ViewBag.Curso){
+                                                @if(curso.Id == cargo.Idcurso){
+                                                    @curso.Descripcion
+                                                }
+                                            }
+
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>

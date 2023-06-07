@@ -14,17 +14,18 @@ namespace AcademiaSoft.Dao
             try
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("SP_LISTAR_CURSO", conn);
-                cmd.CommandType = System.Data.CommandType.StoredProcedure;
-                SqlDataReader reader = cmd.ExecuteReader();
-                while (reader.Read())
+                using (SqlCommand cmd = new SqlCommand("SP_LISTAR_CURSO", conn))
                 {
-                    list.Add(new Curso()
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
                     {
-                        Id = (int)reader["ID"],
-                        Codigo = (string)reader["codigo"],
-                        Descripcion = (string)reader["descripcion"]
-                    });
+                        list.Add(new Curso()
+                        {
+                            Id = Convert.ToInt32(reader["ID"]),
+                            Codigo = (string)reader["codigo"],
+                            Descripcion = (string)reader["descripcion"]
+                        });
+                    }
                 }
                 conn.Close();
             }

@@ -15,6 +15,7 @@ namespace AcademiaSoft.Controllers
         CargoProfesorDao cargoProfesorDao = new CargoProfesorDao();
         CursoDao cursoDao = new CursoDao();
         ProfesorDao ProfesorDao = new ProfesorDao();
+        PeriodoDao periodoDao = new PeriodoDao();
 
         // GET: BoletaNotasController
         public ActionResult Index()
@@ -27,6 +28,14 @@ namespace AcademiaSoft.Controllers
                 ViewBag.error = TempData["error_mensanje"];
             }
             catch (Exception ex) { }
+            
+            ViewBag.CargoProfesor = cargoProfesorDao.ListarProfesorBoleta(0, "");
+            ViewBag.Curso = cursoDao.ListarCurso();
+            ViewBag.Aula = aulaDao.Listar();
+            ViewBag.Alumno = alumnoDao.ListarAlumnos();
+            ViewBag.Profesor = ProfesorDao.ListarProfesor();
+            ViewBag.Periodo = periodoDao.Listar();
+
             return View();
         }
 
@@ -45,7 +54,7 @@ namespace AcademiaSoft.Controllers
         // POST: BoletaNotasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([FromBody] BoletaNotas boleta)
+        public ActionResult Create(List<BoletaNotas> boleta)
         {
             try
             {
