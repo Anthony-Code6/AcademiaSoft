@@ -58,10 +58,10 @@
 
                                     }
                             </td>
-                            <td><input type="text" asp-for="Nota1" class="form-control" value="@boleta.Nota1" /></td>
-                            <td><input type="text" asp-for="Nota2" class="form-control" value="@boleta.Nota2" /></td>
-                            <td><input type="text" asp-for="Nota3" class="form-control" value="@boleta.Nota3" /></td>
-                            <td><input type="text" asp-for="Nota4" class="form-control" value="@boleta.Nota4" /></td>
+                                <td><input type="number" min="0" max="20" pattern="[0-20]+" asp-for="Nota1" class="form-control" value="@boleta.Nota1" /></td>
+                                <td><input type="number" min="0" max="20" pattern="[0-20]+" asp-for="Nota2" class="form-control" value="@boleta.Nota2" /></td>
+                                <td><input type="number" min="0" max="20" pattern="[0-20]+" asp-for="Nota3" class="form-control" value="@boleta.Nota3" /></td>
+                                <td><input type="number" min="0" max="20" pattern="[0-20]+" asp-for="Nota4" class="form-control" value="@boleta.Nota4" /></td>
                         </tr>
                         }
                     </tbody>
@@ -87,6 +87,41 @@
     }
     
     <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script>
+        //$('.boleta-notas').click(async function (e) {
+        const Guardar = async () => {
+            var datos = []
+
+            $("#notas-boletas tr").each(function () {
+                var informacion = {};
+                //informacion.codigo = $($(this).find('td:eq(0) input')).val();
+                informacion.Id = $($(this).find('td:eq(0) input')).val();
+                informacion.Idmatricula=1;
+                informacion.Idcargo=2;
+                informacion.Nota1 = $($(this).find('td:eq(2) input')).val();
+                informacion.Nota2 = $($(this).find('td:eq(3) input')).val();
+                informacion.Nota3 = $($(this).find('td:eq(4) input')).val();
+                informacion.Nota4 = $($(this).find('td:eq(5) input')).val();
+
+                datos.push(informacion);
+            });
+
+            console.log(datos)
+            console.log(JSON.stringify(datos))
+            
+            try {
+                const response = await fetch('@Url.Action("Registrar","BoletaNotas")', { method: 'POST', headers: { 'Content-Type': 'application/json;charset=UTF-8' }, body: JSON.stringify(datos) })
+                const data = await response.json()
+
+                console.log(data)
+            } catch (err) {
+                console.log(err)
+            }
+
+
+        }
+
+    </script>
     <script src="~/js/boleta/index.js"></script>
     
 }

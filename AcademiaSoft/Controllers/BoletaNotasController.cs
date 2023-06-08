@@ -40,8 +40,12 @@ namespace AcademiaSoft.Controllers
         }
         
         [HttpPost]
-        public JsonResult Registrar([FromBody] List<BoletaNotas> boleta)
+        public async Task<JsonResult> Registrar([FromBody] List<BoletaNotas> boleta)
         {
+            foreach (var item in boleta)
+            {
+                boletaNotasDao.Validar_Promedio(item);
+            }
             return Json(boleta);
         }
 
