@@ -38,35 +38,14 @@ namespace AcademiaSoft.Controllers
 
             return View();
         }
-
-        // GET: BoletaNotasController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: BoletaNotasController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: BoletaNotasController/Create
+        
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(List<BoletaNotas> boleta)
+        public JsonResult Registrar([FromBody] List<BoletaNotas> boleta)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return Json(boleta);
         }
 
-        // GET: BoletaNotasController/Edit/5
+
         public ActionResult Edit(int id)
         {
             if (id != null || id>0)
@@ -116,6 +95,8 @@ namespace AcademiaSoft.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        
+
         // POST: BoletaNotasController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -131,25 +112,6 @@ namespace AcademiaSoft.Controllers
             }
         }
 
-        // GET: BoletaNotasController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: BoletaNotasController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+       
     }
 }

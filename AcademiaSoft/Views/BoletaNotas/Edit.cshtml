@@ -37,51 +37,48 @@
                             <th>4°</th>
                         </tr>
                     </thead>
-                    <form asp-action="Create" asp-controller="BoletaNotas" enctype="multipart/form-data" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <tbody>
-                            @foreach (var boleta in ViewBag.Notas)
-                            {
-                            <tr>
-                                <td><input type="hidden" asp-for="Id" value="@boleta.Id" /></td>
-                                <td>
-                                        @foreach (var matricula in ViewBag.Matricula)
+                    <tbody id="notas-boletas">
+                        @foreach (var boleta in ViewBag.Notas)
+                        {
+                        <tr>
+                            <td><input type="hidden" asp-for="Id" value="@boleta.Id" /></td>
+                            <td>
+                                    @foreach (var matricula in ViewBag.Matricula)
+                                    {
+                                        @if (boleta.Idmatricula == matricula.Id)
                                         {
-                                            @if (boleta.Idmatricula == matricula.Id)
+                                            @foreach (var alumno in ViewBag.Alumno)
                                             {
-                                                @foreach (var alumno in ViewBag.Alumno)
+                                                @if (matricula.Idalumno == alumno.Id)
                                                 {
-                                                    @if (matricula.Idalumno == alumno.Id)
-                                                    {
-                                                        @alumno.Apellido @alumno.Nombre
-                                                    }
+                                                    @alumno.Apellido @alumno.Nombre
                                                 }
                                             }
-
                                         }
-                                </td>
-                                <td><input type="text" asp-for="Nota1" class="form-control" value="@boleta.Nota1" /></td>
-                                <td><input type="text" asp-for="Nota2" class="form-control" value="@boleta.Nota2" /></td>
-                                <td><input type="text" asp-for="Nota3" class="form-control" value="@boleta.Nota3" /></td>
-                                <td><input type="text" asp-for="Nota4" class="form-control" value="@boleta.Nota4" /></td>
-                            </tr>
-                            }
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="6">
-                                    <div style="float:right;">
-                                        <a asp-action="Index" asp-controller="BoletaNotas" class="btn btn-default">Salir</a>
-                                        <button type="submit" class="btn btn-success">Guardar Notas</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </form>
+
+                                    }
+                            </td>
+                            <td><input type="text" asp-for="Nota1" class="form-control" value="@boleta.Nota1" /></td>
+                            <td><input type="text" asp-for="Nota2" class="form-control" value="@boleta.Nota2" /></td>
+                            <td><input type="text" asp-for="Nota3" class="form-control" value="@boleta.Nota3" /></td>
+                            <td><input type="text" asp-for="Nota4" class="form-control" value="@boleta.Nota4" /></td>
+                        </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="6">
+                                <div style="float:right;">
+                                    <a asp-action="Index" asp-controller="BoletaNotas" class="btn btn-default">Salir</a>
+                                    <button type="submit" class="btn btn-success boleta-notas" onclick="Guardar()">Guardar Notas</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    
                 </table>
             </div>
         </div>
-        
     </div>
 </div>
 @section scripts {
@@ -90,4 +87,6 @@
     }
     
     <script src="~/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+    <script src="~/js/boleta/index.js"></script>
+    
 }
